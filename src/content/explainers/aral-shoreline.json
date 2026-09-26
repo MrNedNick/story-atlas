@@ -1,0 +1,26 @@
+{
+  "title": "The shoreline over time",
+  "steps": [
+    {
+      "id": "1960",
+      "label": "1960",
+      "src": "/stories/aral-sea/basin.svg",
+      "alt": "Schematic map: a single large Aral Sea fed by the Amu Darya from the south and the Syr Darya from the east.",
+      "caption": "One sea, fed by two rivers. Schematic, not to scale."
+    },
+    {
+      "id": "late-1980s",
+      "label": "Late 1980s",
+      "src": "/stories/aral-sea/split.svg",
+      "alt": "Schematic map: the 1960 shoreline as a dashed outline with two smaller seas inside it, the North Aral and the South Aral.",
+      "caption": "With the rivers diverted, the sea has shrunk and split in two. Schematic, not to scale."
+    },
+    {
+      "id": "2014",
+      "label": "2014",
+      "src": "/stories/aral-sea/2014.svg",
+      "alt": "Schematic map: the North Aral held back by a dam, a narrow western remnant of the South Aral, and the eastern basin marked as dry.",
+      "caption": "The North Aral, held by the Kok-Aral dam since 2005, has recovered; the South Aral's eastern basin is dry. Schematic, not to scale."
+    }
+  ]
+}

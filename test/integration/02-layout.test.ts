@@ -21,8 +21,8 @@ describe('editorial layout on the built story page (end to end)', () => {
     expect(outside).not.toContain('scroll-behavior');
   });
 
-  it('puts both maps in the wide column and shows the reading time', () => {
-    expect(story.match(/<figure[^>]*data-layout="wide"/g)).toHaveLength(2);
+  it('puts both maps and the explainer in the wide column and shows the reading time', () => {
+    expect(story.match(/<figure[^>]*data-layout="wide"/g)).toHaveLength(3);
     expect(story).toMatch(/1 min read/);
   });
 });

@@ -23,7 +23,8 @@ describe('publishing the real site (end to end)', () => {
     const story = page('stories/aral-sea/index.html');
     const headings = [...story.matchAll(/<h2 id="chapter-\d+-[^"]*-title"[^>]*>([^<]+)<\/h2>/g)].map((match) => match[1]);
     expect(headings).toEqual(['A sea in the desert', 'Rivers turned to fields', 'Two different endings']);
-    expect(story.match(/<img /g)).toHaveLength(2);
+    // Two chapter maps plus three explainer steps.
+    expect(story.match(/<img /g)).toHaveLength(5);
     expect(story).not.toMatch(/<img (?![^>]*alt="[^"]+")/);
     expect(story).toContain('https://earthobservatory.nasa.gov/world-of-change/AralSea');
   });
