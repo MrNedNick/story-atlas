@@ -76,6 +76,12 @@ const storySchema = z.object({
   chapters: z.array(chapterSchema).min(1, "a story needs at least one chapter"),
 });
 
+/** Chapter front matter as written in an MDX file: the id and body come from the file itself. */
+export const chapterFrontmatterSchema = chapterSchema.omit({ id: true, bodyRef: true });
+
+/** Story metadata as written in `story.json`: the slug is the folder name, chapters are the MDX files beside it. */
+export const storyMetaSchema = storySchema.omit({ slug: true, chapters: true });
+
 function issuesFrom(error: z.ZodError): string[] {
   return error.issues.map(
     (issue) => `${issue.path.join(".") || "(root)"}: ${issue.message}`,
