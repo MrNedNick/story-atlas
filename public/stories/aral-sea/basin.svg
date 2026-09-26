@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" font-family="system-ui, sans-serif" font-size="14">
+  <title>Aral Sea basin around 1960 (schematic)</title>
+  <rect width="640" height="420" fill="#f4efe4"/>
+  <text x="24" y="36" fill="#6b645a" font-size="13">KAZAKHSTAN</text>
+  <text x="470" y="400" fill="#6b645a" font-size="13">UZBEKISTAN</text>
+  <path d="M250 70 C330 50 410 80 430 150 C450 220 420 300 360 330 C300 355 240 330 215 270 C190 210 195 110 250 70 Z" fill="#8cc0de" stroke="#3d7ea6" stroke-width="2"/>
+  <text x="275" y="205" fill="#1f4f6e" font-size="18" font-weight="600">Aral Sea</text>
+  <path d="M600 110 C540 120 500 130 440 150" fill="none" stroke="#3d7ea6" stroke-width="3"/>
+  <text x="500" y="105" fill="#1f4f6e">Syr Darya</text>
+  <path d="M330 410 C340 380 350 360 355 330" fill="none" stroke="#3d7ea6" stroke-width="3"/>
+  <text x="365" y="385" fill="#1f4f6e">Amu Darya</text>
+  <text x="24" y="400" fill="#6b645a" font-size="12">Schematic, not to scale</text>
+</svg>

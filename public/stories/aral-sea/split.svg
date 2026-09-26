@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" font-family="system-ui, sans-serif" font-size="14">
+  <title>The Aral Sea split into North and South (schematic)</title>
+  <rect width="640" height="420" fill="#f4efe4"/>
+  <path d="M250 70 C330 50 410 80 430 150 C450 220 420 300 360 330 C300 355 240 330 215 270 C190 210 195 110 250 70 Z" fill="#ebe3d3" stroke="#9a8f7c" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="440" y="70" fill="#6b645a" font-size="12">1960 shoreline</text>
+  <path d="M300 85 C340 78 370 95 372 118 C374 140 345 150 318 146 C292 142 280 100 300 85 Z" fill="#8cc0de" stroke="#3d7ea6" stroke-width="2"/>
+  <text x="385" y="115" fill="#1f4f6e">North Aral</text>
+  <path d="M255 170 C285 160 330 170 345 215 C358 255 340 305 300 312 C265 318 240 290 236 250 C232 215 235 180 255 170 Z" fill="#8cc0de" stroke="#3d7ea6" stroke-width="2"/>
+  <text x="360" y="250" fill="#1f4f6e">South Aral</text>
+  <text x="24" y="400" fill="#6b645a" font-size="12">Schematic, not to scale</text>
+</svg>
