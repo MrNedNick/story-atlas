@@ -18,6 +18,10 @@ Work in progress. What works today:
   sources. The build fails if any page ships JavaScript or references an
   image that is not in the output — see
   [`docs/examples/01-content-and-publication.md`](docs/examples/01-content-and-publication.md).
+- Story pages use an editorial grid: text in a 38rem measure, maps in a wider
+  column, fluid headings, a drop cap and the reading time — all CSS, with
+  motion only when the reader allows it — see
+  [`docs/examples/02-editorial-layout.md`](docs/examples/02-editorial-layout.md).
 
 ## Stack
 
