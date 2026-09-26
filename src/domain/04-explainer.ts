@@ -38,21 +38,26 @@ const stepSchema = z.object({
   caption: z.string().min(1),
 });
 
-export const explainerSchema = z
-  .object({
-    id,
-    title: z.string().min(1),
-    steps: z.array(stepSchema).min(2, "an explainer needs at least two steps").max(8, "more than eight steps is a slideshow"),
-    initial: z.string().optional(),
-  })
-  .superRefine((value, ctx) => {
-    const ids = value.steps.map((step) => step.id);
-    const duplicate = ids.find((stepId, i) => ids.indexOf(stepId) !== i);
-    if (duplicate) ctx.addIssue({ code: "custom", path: ["steps"], message: `duplicate step id "${duplicate}"` });
-    if (value.initial && !ids.includes(value.initial)) {
-      ctx.addIssue({ code: "custom", path: ["initial"], message: `initial step "${value.initial}" is not one of the steps` });
-    }
-  });
+const explainerFields = z.object({
+  id,
+  title: z.string().min(1),
+  steps: z.array(stepSchema).min(2, "an explainer needs at least two steps").max(8, "more than eight steps is a slideshow"),
+  initial: z.string().optional(),
+});
+
+function checkSteps(value: { steps: { id: string }[]; initial?: string }, ctx: z.RefinementCtx) {
+  const ids = value.steps.map((step) => step.id);
+  const duplicate = ids.find((stepId, i) => ids.indexOf(stepId) !== i);
+  if (duplicate) ctx.addIssue({ code: "custom", path: ["steps"], message: `duplicate step id "${duplicate}"` });
+  if (value.initial && !ids.includes(value.initial)) {
+    ctx.addIssue({ code: "custom", path: ["initial"], message: `initial step "${value.initial}" is not one of the steps` });
+  }
+}
+
+export const explainerSchema = explainerFields.superRefine(checkSteps);
+
+/** An explainer as written in `src/content/explainers/<id>.json`: the id is the file name. */
+export const explainerDataSchema = explainerFields.omit({ id: true }).superRefine(checkSteps);
 
 export function parseExplainer(input: unknown): ExplainerResult<Explainer> {
   const parsed = explainerSchema.safeParse(input);

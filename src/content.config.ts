@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { chapterFrontmatterSchema, storyMetaSchema } from './domain/01-content-schema';
+import { explainerDataSchema } from './domain/04-explainer';
 
 const base = './src/content/stories';
 
@@ -16,4 +17,10 @@ const chapters = defineCollection({
   schema: chapterFrontmatterSchema,
 });
 
-export const collections = { stories, chapters };
+/** Step-through explainers, one JSON file each, placed in a chapter with `<Explainer id="…" />`. */
+const explainers = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/explainers' }),
+  schema: explainerDataSchema,
+});
+
+export const collections = { stories, chapters, explainers };
