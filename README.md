@@ -22,6 +22,10 @@ Work in progress. What works today:
   column, fluid headings, a drop cap and the reading time — all CSS, with
   motion only when the reader allows it — see
   [`docs/examples/02-editorial-layout.md`](docs/examples/02-editorial-layout.md).
+- Every story opens with contents (reading time per chapter, sections for
+  long chapters) and each chapter links to its neighbours; the build checks
+  that every in-page link lands somewhere — see
+  [`docs/examples/03-chapters-navigation.md`](docs/examples/03-chapters-navigation.md).
 
 ## Stack
 
@@ -36,7 +40,7 @@ Work in progress. What works today:
 | :------------------ | :------------------------------------------ |
 | `npm install`        | Install dependencies                        |
 | `npm run dev`         | Start the dev server at `localhost:4321`    |
-| `npm run build`       | Build the static site to `./dist/`, then check that no page ships JavaScript and every image exists |
+| `npm run build`       | Build the static site to `./dist/`, then check that no page ships JavaScript, every image exists and every in-page link resolves |
 | `npm run preview`     | Preview the production build locally        |
 | `npm run test`        | Run the unit test suite (Vitest)            |
 | `npm run typecheck`   | Type-check the project (`astro check`)      |
