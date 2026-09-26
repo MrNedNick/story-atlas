@@ -31,7 +31,7 @@ describe('publishing the real site (end to end)', () => {
   it('passes the dist checks: no JavaScript, no missing images', () => {
     const result = spawnSync(process.execPath, [checkDist, outDir], { encoding: 'utf8' });
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain('2 pages, no scripts, all images present');
+    expect(result.stdout).toContain('2 pages, no scripts, all images present, all in-page links resolve');
   });
 });
 

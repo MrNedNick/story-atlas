@@ -1,4 +1,5 @@
-// Checks the built site: pages must read without JavaScript, and every image they reference must exist.
+// Checks the built site: pages must read without JavaScript, every image they reference must exist,
+// and every in-page link must point at an element on that page.
 import { access, readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -35,6 +36,10 @@ const problems = [];
 for (const file of files) {
   const html = await readFile(file, 'utf8');
   if (/<script\b/i.test(html)) problems.push(`${file}: ships JavaScript`);
+  const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(([, id]) => id));
+  for (const [, fragment] of html.matchAll(/\bhref="#([^"]+)"/g)) {
+    if (!ids.has(decodeURIComponent(fragment))) problems.push(`${file}: link to missing #${fragment}`);
+  }
   for (const [, src] of html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/gi)) {
     if (!src.startsWith('/')) continue;
     if (!(await exists(join(dist, decodeURIComponent(src.split(/[?#]/)[0]))))) {
@@ -47,4 +52,4 @@ if (problems.length > 0) {
   console.error(`check-dist:\n${problems.join('\n')}`);
   process.exit(1);
 }
-console.log(`check-dist: ${files.length} pages, no scripts, all images present.`);
+console.log(`check-dist: ${files.length} pages, no scripts, all images present, all in-page links resolve.`);
