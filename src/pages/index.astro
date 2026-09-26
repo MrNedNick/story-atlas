@@ -1,17 +1,72 @@
 ---
+import Base from '../layouts/Base.astro';
+import { loadPublishedStories } from '../adapters/content';
 
+const stories = await loadPublishedStories();
+const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'long', timeZone: 'UTC' });
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title="Story Atlas" description="Long-form stories told with maps, charts and sources.">
+  <h1>Stories</h1>
+  {
+    stories.length === 0 ? (
+      <p class="empty">No stories are published yet. Check back soon.</p>
+    ) : (
+      <ol class="story-list">
+        {stories.map((story) => (
+          <li>
+            <article>
+              <h2>
+                <a href={`/stories/${story.slug}/`}>{story.title}</a>
+              </h2>
+              <p class="dek">{story.dek}</p>
+              <p class="meta">
+                <time datetime={story.publishedAt.toISOString()}>{date(story.publishedAt)}</time> ·{' '}
+                {story.chapters.length} {story.chapters.length === 1 ? 'chapter' : 'chapters'}
+              </p>
+            </article>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</Base>
+
+<style>
+  .story-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .story-list li + li {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  h2 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  h2 a:hover,
+  h2 a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .dek {
+    margin: 0 0 0.5rem;
+  }
+
+  .meta,
+  .empty {
+    margin: 0;
+    color: var(--muted);
+    font: 0.875rem/1.5 system-ui, sans-serif;
+  }
+</style>

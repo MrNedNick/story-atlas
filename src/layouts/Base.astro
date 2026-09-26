@@ -1,0 +1,100 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="site-name">Story Atlas</a>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --text: #1d1b18;
+    --muted: #5f5a52;
+    --paper: #fbf9f5;
+    --rule: #e3ddd2;
+    --accent: #1f5f8b;
+    --measure: 38rem;
+    color-scheme: light dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text: #ece8e1;
+      --muted: #a9a298;
+      --paper: #171614;
+      --rule: #34312c;
+      --accent: #7fb6dd;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    background: var(--paper);
+    color: var(--text);
+    font: 1.125rem/1.6 'Iowan Old Style', Charter, 'Palatino Linotype', Georgia, serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  main {
+    max-width: var(--measure);
+    margin: 0 auto;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: system-ui, sans-serif;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .site-header {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-family: system-ui, sans-serif;
+  }
+
+  .site-name {
+    color: var(--text);
+    font-weight: 700;
+    text-decoration: none;
+  }
+</style>

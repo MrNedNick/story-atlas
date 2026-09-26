@@ -1,0 +1,93 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Figure from '../../components/Figure.astro';
+import Citations from '../../components/Citations.astro';
+import { loadPublishedStories } from '../../adapters/content';
+import type { Story } from '../../domain/01-content-schema';
+
+export async function getStaticPaths() {
+  const stories = await loadPublishedStories();
+  return stories.map((story) => ({ params: { slug: story.slug }, props: { story } }));
+}
+
+interface Props {
+  story: Story;
+}
+
+const { story } = Astro.props;
+const chapters = await Promise.all(
+  story.chapters.map(async (chapter) => {
+    const entry = await getEntry('chapters', chapter.bodyRef);
+    if (!entry) throw new Error(`Story "${story.slug}" points at a missing chapter body: ${chapter.bodyRef}`);
+    const { Content } = await render(entry);
+    return { chapter, Content };
+  }),
+);
+const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'long', timeZone: 'UTC' });
+---
+
+<Base title={`${story.title} · Story Atlas`} description={story.dek}>
+  <article class="story">
+    <header class="story-header">
+      <h1>{story.title}</h1>
+      <p class="dek">{story.dek}</p>
+      <p class="meta">
+        <time datetime={story.publishedAt.toISOString()}>{date(story.publishedAt)}</time>
+        {
+          story.updatedAt && (
+            <>
+              {' '}
+              · updated <time datetime={story.updatedAt.toISOString()}>{date(story.updatedAt)}</time>
+            </>
+          )
+        }
+      </p>
+    </header>
+
+    {
+      chapters.map(({ chapter, Content }) => (
+        <section class="chapter" aria-labelledby={`chapter-${chapter.order}`}>
+          <h2 id={`chapter-${chapter.order}`}>{chapter.title}</h2>
+          <Content />
+          {chapter.illustrations.map((illustration) => (
+            <Figure illustration={illustration} />
+          ))}
+          <Citations citations={chapter.citations} />
+        </section>
+      ))
+    }
+  </article>
+</Base>
+
+<style>
+  .story-header {
+    margin: 2.5rem 0 3rem;
+  }
+
+  h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+
+  .dek {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    color: var(--muted);
+  }
+
+  .meta {
+    margin: 0;
+    color: var(--muted);
+    font: 0.875rem/1.5 system-ui, sans-serif;
+  }
+
+  .chapter + .chapter {
+    margin-top: 4rem;
+  }
+
+  .chapter h2 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+  }
+</style>
