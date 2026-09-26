@@ -15,6 +15,7 @@ const { title, description } = Astro.props;
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body>
     <header class="site-header">
@@ -55,7 +56,7 @@ const { title, description } = Astro.props;
 
   body {
     margin: 0;
-    padding: 0 1rem 4rem;
+    padding: 0 0 4rem;
     background: var(--paper);
     color: var(--text);
     font: 1.125rem/1.6 'Iowan Old Style', Charter, 'Palatino Linotype', Georgia, serif;
@@ -63,9 +64,13 @@ const { title, description } = Astro.props;
   }
 
   main {
-    max-width: var(--measure);
-    margin: 0 auto;
     overflow-wrap: break-word;
+  }
+
+  /* Pages without the editorial grid keep to one readable column. */
+  main > :not(.story) {
+    max-width: var(--measure);
+    margin-inline: auto;
   }
 
   main p {
@@ -92,7 +97,7 @@ const { title, description } = Astro.props;
   .site-header {
     max-width: var(--measure);
     margin: 0 auto;
-    padding: 1.25rem 0;
+    padding: 1.25rem 1rem;
     border-bottom: 1px solid var(--rule);
     font-family: system-ui, sans-serif;
   }

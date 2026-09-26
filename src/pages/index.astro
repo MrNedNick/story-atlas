@@ -7,6 +7,7 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
 ---
 
 <Base title="Story Atlas" description="Long-form stories told with maps, charts and sources.">
+  <section class="index">
   <h1>Stories</h1>
   {
     stories.length === 0 ? (
@@ -30,9 +31,14 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
       </ol>
     )
   }
+  </section>
 </Base>
 
 <style>
+  .index {
+    padding-inline: 1rem;
+  }
+
   .story-list {
     margin: 0;
     padding: 0;

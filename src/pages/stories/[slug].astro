@@ -5,6 +5,7 @@ import Figure from '../../components/Figure.astro';
 import Citations from '../../components/Citations.astro';
 import { loadPublishedStories } from '../../adapters/content';
 import type { Story } from '../../domain/01-content-schema';
+import { siteLayoutCss, storyReadingMinutes } from '../../features/02-layout';
 
 export async function getStaticPaths() {
   const stories = await loadPublishedStories();
@@ -21,19 +22,23 @@ const chapters = await Promise.all(
     const entry = await getEntry('chapters', chapter.bodyRef);
     if (!entry) throw new Error(`Story "${story.slug}" points at a missing chapter body: ${chapter.bodyRef}`);
     const { Content } = await render(entry);
-    return { chapter, Content };
+    return { chapter, Content, body: entry.body ?? '' };
   }),
 );
+const minutes = storyReadingMinutes(chapters.map(({ body }) => body));
+const layout = siteLayoutCss();
 const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'long', timeZone: 'UTC' });
 ---
 
 <Base title={`${story.title} · Story Atlas`} description={story.dek}>
+  <Fragment slot="head" set:html={`<style>${layout}</style>`} />
   <article class="story">
     <header class="story-header">
       <h1>{story.title}</h1>
       <p class="dek">{story.dek}</p>
       <p class="meta">
-        <time datetime={story.publishedAt.toISOString()}>{date(story.publishedAt)}</time>
+        <time datetime={story.publishedAt.toISOString()}>{date(story.publishedAt)}</time>{' '}
+        · {minutes} min read
         {
           story.updatedAt && (
             <>
@@ -67,7 +72,6 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
 
   h1 {
     margin: 0 0 1rem;
-    font-size: clamp(2rem, 6vw, 3rem);
   }
 
   .dek {
@@ -88,6 +92,5 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
 
   .chapter h2 {
     margin: 0 0 1rem;
-    font-size: 1.5rem;
   }
 </style>
