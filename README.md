@@ -15,7 +15,9 @@ Work in progress. What works today:
   without alt text — stops the build with a message naming the story.
 - The site is plain static HTML: an index of published stories (scheduled
   ones stay hidden) and a page per story with its chapters, figures and
-  sources. The build fails if any page ships JavaScript.
+  sources. The build fails if any page ships JavaScript or references an
+  image that is not in the output — see
+  [`docs/examples/01-content-and-publication.md`](docs/examples/01-content-and-publication.md).
 
 ## Stack
 
@@ -30,7 +32,7 @@ Work in progress. What works today:
 | :------------------ | :------------------------------------------ |
 | `npm install`        | Install dependencies                        |
 | `npm run dev`         | Start the dev server at `localhost:4321`    |
-| `npm run build`       | Build the static site to `./dist/` and check that no page ships JavaScript |
+| `npm run build`       | Build the static site to `./dist/`, then check that no page ships JavaScript and every image exists |
 | `npm run preview`     | Preview the production build locally        |
 | `npm run test`        | Run the unit test suite (Vitest)            |
 | `npm run typecheck`   | Type-check the project (`astro check`)      |
