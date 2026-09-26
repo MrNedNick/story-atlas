@@ -86,8 +86,8 @@ function round(value: number): number {
 }
 
 /**
- * The layout as CSS. Children of `.story` sit in the text column; figures
- * choose `wide` or `full` with `data-layout`. Headings scale fluidly between
+ * The layout as CSS. Children of `.story` and of its `.chapter`s sit in the
+ * text column; figures choose `wide` or `full` with `data-layout`. Headings scale fluidly between
  * the narrow and the wide viewport. Motion is emitted only inside
  * `prefers-reduced-motion: no-preference`.
  */
@@ -107,8 +107,15 @@ export function layoutCss(config: LayoutConfig): string {
     minmax(${gutterRem}rem, 1fr) [full-end];
   font-size: ${baseSizeRem}rem;
 }`,
-    `.story > * {
+    // Chapters span the whole grid and pass its columns on, so a figure inside a chapter can break out.
+    `.story > *,
+.story .chapter > * {
   grid-column: content;
+}`,
+    `.story > .chapter {
+  grid-column: full;
+  display: grid;
+  grid-template-columns: subgrid;
 }`,
     `.story [data-layout="wide"] {
   grid-column: wide;

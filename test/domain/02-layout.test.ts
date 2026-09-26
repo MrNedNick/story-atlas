@@ -60,6 +60,7 @@ describe("layoutCss", () => {
     expect(css).toContain("[content-start] min(38rem, 100% - 2rem) [content-end]");
     expect(css).toContain("[wide-start] minmax(0, 9rem)");
     expect(css).toContain('.story [data-layout="full"] {\n  grid-column: full;');
+    expect(css).toContain("grid-template-columns: subgrid;");
   });
 
   it("scales headings fluidly up to the heading ratio", () => {
