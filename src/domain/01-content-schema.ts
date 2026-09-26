@@ -23,6 +23,8 @@ export interface Illustration {
   src: string;
   alt: string;
   caption?: string;
+  /** Column the figure spans; defaults by kind (see 02-layout). */
+  layout?: "inline" | "wide" | "full";
 }
 
 export interface Chapter {
@@ -56,6 +58,7 @@ const illustrationSchema = z.object({
   src: z.string().min(1),
   alt: z.string().min(1),
   caption: z.string().optional(),
+  layout: z.enum(["inline", "wide", "full"]).optional(),
 });
 
 const chapterSchema = z.object({
