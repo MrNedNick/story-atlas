@@ -1,0 +1,40 @@
+---
+import type { Neighbours } from '../domain/03-navigation';
+
+interface Props {
+  neighbours: Neighbours;
+}
+
+const { previous, next } = Astro.props.neighbours;
+---
+
+<nav class="chapter-nav" aria-label="Chapters">
+  {previous ? <a href={`#${previous.id}`} rel="prev">← {previous.title}</a> : <span />}
+  <a href="#contents" class="to-contents">Contents</a>
+  {next ? <a href={`#${next.id}`} rel="next">{next.title} →</a> : <span />}
+</nav>
+
+<style>
+  .chapter-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+    font: 0.875rem/1.4 system-ui, sans-serif;
+  }
+
+  .chapter-nav > :last-child {
+    text-align: right;
+  }
+
+  @media (max-width: 30rem) {
+    .chapter-nav {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .to-contents {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+</style>

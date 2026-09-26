@@ -1,0 +1,70 @@
+---
+import type { TocEntry } from '../domain/03-navigation';
+
+interface Props {
+  toc: TocEntry[];
+}
+
+const { toc } = Astro.props;
+---
+
+<nav class="contents" id="contents" aria-labelledby="contents-heading">
+  <h2 id="contents-heading">Contents</h2>
+  <ol>
+    {
+      toc.map((entry) => (
+        <li>
+          <a href={`#${entry.id}`}>{entry.title}</a>
+          <span class="minutes">{entry.minutes} min</span>
+          {entry.sections.length > 0 && (
+            <ol>
+              {entry.sections.map((section) => (
+                <li>
+                  <a href={`#${section.id}`}>{section.title}</a>
+                </li>
+              ))}
+            </ol>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .contents {
+    margin: 0 0 3rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--rule);
+    border-radius: 0.375rem;
+    font: 0.9375rem/1.5 system-ui, sans-serif;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  li + li {
+    margin-top: 0.25rem;
+  }
+
+  ol ol {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .minutes {
+    margin-left: 0.5rem;
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+</style>

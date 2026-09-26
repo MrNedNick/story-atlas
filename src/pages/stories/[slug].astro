@@ -6,6 +6,10 @@ import Citations from '../../components/Citations.astro';
 import { loadPublishedStories } from '../../adapters/content';
 import type { Story } from '../../domain/01-content-schema';
 import { siteLayoutCss, storyReadingMinutes } from '../../features/02-layout';
+import { storyToc, tocEntryFor } from '../../features/03-navigation';
+import { neighbours } from '../../domain/03-navigation';
+import Contents from '../../components/Contents.astro';
+import ChapterNav from '../../components/ChapterNav.astro';
 
 export async function getStaticPaths() {
   const stories = await loadPublishedStories();
@@ -21,9 +25,13 @@ const chapters = await Promise.all(
   story.chapters.map(async (chapter) => {
     const entry = await getEntry('chapters', chapter.bodyRef);
     if (!entry) throw new Error(`Story "${story.slug}" points at a missing chapter body: ${chapter.bodyRef}`);
-    const { Content } = await render(entry);
-    return { chapter, Content, body: entry.body ?? '' };
+    const { Content, headings } = await render(entry);
+    return { chapter, Content, headings, body: entry.body ?? '' };
   }),
+);
+const toc = storyToc(
+  story.slug,
+  chapters.map(({ chapter, body, headings }) => ({ order: chapter.order, title: chapter.title, body, headings })),
 );
 const minutes = storyReadingMinutes(chapters.map(({ body }) => body));
 const layout = siteLayoutCss();
@@ -50,17 +58,23 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
       </p>
     </header>
 
+    <Contents toc={toc} />
+
     {
-      chapters.map(({ chapter, Content }) => (
-        <section class="chapter" aria-labelledby={`chapter-${chapter.order}`}>
-          <h2 id={`chapter-${chapter.order}`}>{chapter.title}</h2>
+      chapters.map(({ chapter, Content }) => {
+        const entry = tocEntryFor(toc, chapter.order);
+        return (
+        <section class="chapter" id={entry.id} aria-labelledby={`${entry.id}-title`}>
+          <h2 id={`${entry.id}-title`}>{chapter.title}</h2>
           <Content />
           {chapter.illustrations.map((illustration) => (
             <Figure illustration={illustration} />
           ))}
           <Citations citations={chapter.citations} />
+          <ChapterNav neighbours={neighbours(toc, entry.id)} />
         </section>
-      ))
+        );
+      })
     }
   </article>
 </Base>
@@ -88,6 +102,12 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
 
   .chapter + .chapter {
     margin-top: 4rem;
+  }
+
+  /* Anchored headings land with a little room above them. */
+  .chapter,
+  .chapter :global(h3) {
+    scroll-margin-top: 1.5rem;
   }
 
   .chapter h2 {

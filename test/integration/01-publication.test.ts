@@ -21,7 +21,7 @@ describe('publishing the real site (end to end)', () => {
 
   it('renders every chapter in order with its figures and sources', () => {
     const story = page('stories/aral-sea/index.html');
-    const headings = [...story.matchAll(/<h2 id="chapter-\d+"[^>]*>([^<]+)<\/h2>/g)].map((match) => match[1]);
+    const headings = [...story.matchAll(/<h2 id="chapter-\d+-[^"]*-title"[^>]*>([^<]+)<\/h2>/g)].map((match) => match[1]);
     expect(headings).toEqual(['A sea in the desert', 'Rivers turned to fields', 'Two different endings']);
     expect(story.match(/<img /g)).toHaveLength(2);
     expect(story).not.toMatch(/<img (?![^>]*alt="[^"]+")/);
