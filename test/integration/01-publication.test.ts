@@ -1,24 +1,17 @@
-import { execFileSync, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, inject, it } from 'vitest';
 
-const astro = join('node_modules', 'astro', 'bin', 'astro.mjs');
 const checkDist = join('scripts', 'check-dist.mjs');
-const outDir = mkdtempSync(join(tmpdir(), 'story-atlas-build-'));
+const outDir = inject('distDir');
 
 function page(path: string): string {
   return readFileSync(join(outDir, path), 'utf8');
 }
 
 describe('publishing the real site (end to end)', () => {
-  beforeAll(() => {
-    execFileSync(process.execPath, [astro, 'build', '--outDir', outDir], { stdio: 'pipe' });
-  }, 120_000);
-
-  afterAll(() => rmSync(outDir, { recursive: true, force: true }));
-
   it('lists the published story on the index', () => {
     const index = page('index.html');
     expect(index).toContain('href="/stories/aral-sea/"');

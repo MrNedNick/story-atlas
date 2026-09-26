@@ -1,24 +1,12 @@
-import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { describe, expect, inject, it } from 'vitest';
 import { DEFAULT_LAYOUT } from '../../src/domain/02-layout';
 import { siteLayoutCss, storyReadingMinutes } from '../../src/features/02-layout';
 
-const outDir = mkdtempSync(join(tmpdir(), 'story-atlas-layout-'));
-let story = '';
+const story = readFileSync(join(inject('distDir'), 'stories', 'aral-sea', 'index.html'), 'utf8');
 
 describe('editorial layout on the built story page (end to end)', () => {
-  beforeAll(() => {
-    execFileSync(process.execPath, [join('node_modules', 'astro', 'bin', 'astro.mjs'), 'build', '--outDir', outDir], {
-      stdio: 'pipe',
-    });
-    story = readFileSync(join(outDir, 'stories', 'aral-sea', 'index.html'), 'utf8');
-  }, 120_000);
-
-  afterAll(() => rmSync(outDir, { recursive: true, force: true }));
-
   it('inlines the layout CSS in the head, without any script', () => {
     const head = story.slice(0, story.indexOf('</head>'));
     expect(head).toContain('grid-template-columns: subgrid;');
