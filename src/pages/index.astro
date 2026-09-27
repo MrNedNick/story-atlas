@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../features/06-distribution';
 import Base from '../layouts/Base.astro';
 import { loadPublishedStories } from '../adapters/content';
 
@@ -6,7 +7,7 @@ const stories = await loadPublishedStories();
 const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'long', timeZone: 'UTC' });
 ---
 
-<Base title="Story Atlas" description="Long-form stories told with maps, charts and sources.">
+<Base title="Story Atlas" description="Long-form stories told with maps, charts and sources." path="">
   <section class="index">
   <h1>Stories</h1>
   {
@@ -18,7 +19,7 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
           <li>
             <article>
               <h2>
-                <a href={`/stories/${story.slug}/`}>{story.title}</a>
+                <a href={withBase(`stories/${story.slug}/`)}>{story.title}</a>
               </h2>
               <p class="dek">{story.dek}</p>
               <p class="meta">

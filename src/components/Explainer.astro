@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import { stepInputId } from '../domain/04-explainer';
 import { prepareExplainer } from '../features/04-explainer';
 import { publicAssetExists } from '../adapters/assets';
+import { withBase } from '../features/06-distribution';
 
 interface Props {
   id: string;
@@ -36,7 +37,7 @@ const { explainer, css } = prepareExplainer({ ...entry.data, id: entry.id }, pub
     {
       explainer.steps.map((step) => (
         <div class="explainer-panel" data-step={step.id}>
-          <img src={step.src} alt={step.alt} loading="lazy" decoding="async" />
+          <img src={withBase(step.src)} alt={step.alt} loading="lazy" decoding="async" />
           <p class="explainer-caption">
             <strong>{step.label}.</strong> {step.caption}
           </p>

@@ -5,7 +5,7 @@ citations, built with Astro, MDX and hand-authored SVG graphics. No
 client-side framework — pages ship as static HTML, with interactivity added
 only where a scenario genuinely needs it.
 
-Work in progress. What works today:
+What it does:
 
 - Stories are content collections: one folder per story with a `story.json`
   (title, dek, dates) and numbered MDX chapters whose front matter lists the
@@ -35,6 +35,11 @@ Work in progress. What works today:
   topics; a duplicate footnote id or a non-web link stops the build — see
   [`docs/examples/05-sources-related.md`](docs/examples/05-sources-related.md).
   There are two stories now: the Aral Sea and Lake Chad.
+- The build also writes an RSS feed, a sitemap and robots.txt, and gives every
+  page a canonical URL and link-preview tags. Built with `SITE_URL` and
+  `BASE_PATH`, the site works from a sub-path such as a GitHub project page;
+  a workflow deploys it there — see
+  [`docs/examples/06-feeds-and-deploy.md`](docs/examples/06-feeds-and-deploy.md).
 
 ## Stack
 
@@ -49,7 +54,8 @@ Work in progress. What works today:
 | :------------------ | :------------------------------------------ |
 | `npm install`        | Install dependencies                        |
 | `npm run dev`         | Start the dev server at `localhost:4321`    |
-| `npm run build`       | Build the static site to `./dist/`, then check that no page ships JavaScript, every image exists and every in-page link resolves |
+| `npm run build`       | Build the static site to `./dist/`, then check that no page ships JavaScript, every image exists, every in-page link resolves, every path is under the base and the feeds exist |
+| `SITE_URL=… BASE_PATH=/story-atlas/ npm run build` | The same, for a site served from a sub-path |
 | `npm run preview`     | Preview the production build locally        |
 | `npm run test`        | Run the unit test suite (Vitest)            |
 | `npm run typecheck`   | Type-check the project (`astro check`)      |

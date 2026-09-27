@@ -1,5 +1,6 @@
 ---
 import type { RelatedStory } from '../domain/05-sources';
+import { withBase } from '../features/06-distribution';
 
 interface Props {
   related: RelatedStory[];
@@ -18,7 +19,7 @@ const topic = (value: string) => value.replace(/-/g, ' ');
       <ul>
         {related.map((story) => (
           <li>
-            <a href={`/stories/${story.slug}/`}>
+            <a href={withBase(`stories/${story.slug}/`)}>
               <span class="title">{story.title}</span>
               <span class="dek">{story.dek}</span>
             </a>

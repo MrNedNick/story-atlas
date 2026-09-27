@@ -4,7 +4,7 @@
   <text x="24" y="36" fill="#6b645a" font-size="13">NIGER</text>
   <text x="520" y="36" fill="#6b645a" font-size="13">CHAD</text>
   <text x="24" y="330" fill="#6b645a" font-size="13">NIGERIA</text>
-  <text x="470" y="330" fill="#6b645a" font-size="13">CAMEROON</text>
+  <text x="505" y="255" fill="#6b645a" font-size="13">CAMEROON</text>
   <path d="M210 80 C290 55 360 70 380 120 C400 170 360 205 300 210 C240 214 190 190 180 150 C172 115 180 92 210 80 Z" fill="none" stroke="#3d7ea6" stroke-width="2" stroke-dasharray="6 5"/>
   <text x="230" y="140" fill="#6b645a" font-size="13">northern pool</text>
   <text x="230" y="158" fill="#6b645a" font-size="12">(often dry)</text>

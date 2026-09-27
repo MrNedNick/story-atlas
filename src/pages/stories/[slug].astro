@@ -47,7 +47,15 @@ const layout = siteLayoutCss();
 const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'long', timeZone: 'UTC' });
 ---
 
-<Base title={`${story.title} · Story Atlas`} description={story.dek}>
+<Base
+  title={`${story.title} · Story Atlas`}
+  description={story.dek}
+  path={`stories/${story.slug}/`}
+  type="article"
+  publishedAt={story.publishedAt}
+  image={story.chapters[0]?.illustrations[0]?.src}
+  imageAlt={story.chapters[0]?.illustrations[0]?.alt}
+>
   <Fragment slot="head" set:html={`<style>${layout}</style>`} />
   <article class="story">
     <header class="story-header">

@@ -4,6 +4,8 @@ import { access, readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const dist = process.argv[2] ?? 'dist';
+// The path the site is served under (BASE_PATH at build time): every internal link and image must use it.
+const base = (process.env.BASE_PATH || '/').replace(/\/?$/, '/');
 
 async function htmlFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -42,14 +44,26 @@ for (const file of files) {
   }
   for (const [, src] of html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/gi)) {
     if (!src.startsWith('/')) continue;
-    if (!(await exists(join(dist, decodeURIComponent(src.split(/[?#]/)[0]))))) {
+    if (!src.startsWith(base)) {
+      problems.push(`${file}: image ${src} is outside the base path ${base}`);
+      continue;
+    }
+    if (!(await exists(join(dist, decodeURIComponent(src.slice(base.length).split(/[?#]/)[0]))))) {
       problems.push(`${file}: missing image ${src}`);
     }
   }
+  for (const [, href] of html.matchAll(/\bhref="(\/[^"]*)"/g)) {
+    if (!href.startsWith(base)) problems.push(`${file}: link ${href} is outside the base path ${base}`);
+  }
+}
+
+// What feed readers and search engines ask for.
+for (const file of ['rss.xml', 'sitemap.xml', 'robots.txt']) {
+  if (!(await exists(join(dist, file)))) problems.push(`missing ${file}`);
 }
 
 if (problems.length > 0) {
   console.error(`check-dist:\n${problems.join('\n')}`);
   process.exit(1);
 }
-console.log(`check-dist: ${files.length} pages, no scripts, all images present, all in-page links resolve.`);
+console.log(`check-dist: ${files.length} pages, no scripts, all images present, all in-page links resolve, all paths under ${base}, feeds present.`);
