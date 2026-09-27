@@ -26,6 +26,10 @@ Work in progress. What works today:
   long chapters) and each chapter links to its neighbours; the build checks
   that every in-page link lands somewhere — see
   [`docs/examples/03-chapters-navigation.md`](docs/examples/03-chapters-navigation.md).
+- A chapter can hold a step-through explainer — the same map at several points
+  in time, switched with a group of radio buttons and CSS `:has()`, still
+  with no JavaScript; a missing step image stops the build — see
+  [`docs/examples/04-explainers.md`](docs/examples/04-explainers.md).
 
 ## Stack
 
