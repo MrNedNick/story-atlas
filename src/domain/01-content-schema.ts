@@ -42,6 +42,8 @@ export interface Story {
   dek: string;
   publishedAt: Date;
   updatedAt?: Date;
+  /** Kebab-case subjects shared across stories; the basis for related stories. */
+  topics: string[];
   chapters: Chapter[];
 }
 
@@ -76,6 +78,7 @@ const storySchema = z.object({
   dek: z.string().min(1),
   publishedAt: z.coerce.date(),
   updatedAt: z.coerce.date().optional(),
+  topics: z.array(z.string()).default([]),
   chapters: z.array(chapterSchema).min(1, "a story needs at least one chapter"),
 });
 

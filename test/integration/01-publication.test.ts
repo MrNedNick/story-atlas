@@ -15,6 +15,7 @@ describe('publishing the real site (end to end)', () => {
   it('lists the published story on the index', () => {
     const index = page('index.html');
     expect(index).toContain('href="/stories/aral-sea/"');
+    expect(index).toContain('href="/stories/lake-chad/"');
     expect(index).toContain('The Sea That Moved Away');
     expect(index).toContain('3 chapters');
   });
@@ -32,7 +33,8 @@ describe('publishing the real site (end to end)', () => {
   it('passes the dist checks: no JavaScript, no missing images', () => {
     const result = spawnSync(process.execPath, [checkDist, outDir], { encoding: 'utf8' });
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain('2 pages, no scripts, all images present, all in-page links resolve');
+    // The index and one page per published story.
+    expect(result.stdout).toContain('3 pages, no scripts, all images present, all in-page links resolve');
   });
 });
 

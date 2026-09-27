@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" font-family="system-ui, sans-serif" font-size="14">
+  <title>Lake Chad and its two pools (schematic)</title>
+  <rect width="640" height="420" fill="#f4efe4"/>
+  <text x="24" y="36" fill="#6b645a" font-size="13">NIGER</text>
+  <text x="520" y="36" fill="#6b645a" font-size="13">CHAD</text>
+  <text x="24" y="330" fill="#6b645a" font-size="13">NIGERIA</text>
+  <text x="470" y="330" fill="#6b645a" font-size="13">CAMEROON</text>
+  <path d="M210 80 C290 55 360 70 380 120 C400 170 360 205 300 210 C240 214 190 190 180 150 C172 115 180 92 210 80 Z" fill="none" stroke="#3d7ea6" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="230" y="140" fill="#6b645a" font-size="13">northern pool</text>
+  <text x="230" y="158" fill="#6b645a" font-size="12">(often dry)</text>
+  <path d="M300 222 C360 212 420 225 440 260 C455 290 425 318 370 322 C320 326 285 305 280 275 C276 248 282 228 300 222 Z" fill="#8cc0de" stroke="#3d7ea6" stroke-width="2"/>
+  <text x="318" y="275" fill="#1f4f6e" font-size="15" font-weight="600">southern pool</text>
+  <path d="M250 214 C300 210 350 214 400 212" fill="none" stroke="#7a9a5a" stroke-width="5" stroke-linecap="round"/>
+  <text x="408" y="206" fill="#4f6b36" font-size="12">vegetation ridge</text>
+  <path d="M600 400 C560 370 500 340 440 290" fill="none" stroke="#3d7ea6" stroke-width="3"/>
+  <text x="520" y="392" fill="#1f4f6e">Chari</text>
+  <text x="24" y="400" fill="#6b645a" font-size="12">Schematic, not to scale</text>
+</svg>

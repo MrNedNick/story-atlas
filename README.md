@@ -30,6 +30,11 @@ Work in progress. What works today:
   in time, switched with a group of radio buttons and CSS `:has()`, still
   with no JavaScript; a missing step image stops the build — see
   [`docs/examples/04-explainers.md`](docs/examples/04-explainers.md).
+- Each story ends with one numbered source list — every cited work once, with
+  links back to the chapters that cite it — and related stories on shared
+  topics; a duplicate footnote id or a non-web link stops the build — see
+  [`docs/examples/05-sources-related.md`](docs/examples/05-sources-related.md).
+  There are two stories now: the Aral Sea and Lake Chad.
 
 ## Stack
 

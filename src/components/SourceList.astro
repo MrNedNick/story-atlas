@@ -1,0 +1,76 @@
+---
+import type { SourceEntry } from '../domain/05-sources';
+
+interface Props {
+  sources: SourceEntry[];
+  /** Maps a chapter id to its anchor on the page, so each source links back to where it is cited. */
+  chapterAnchor: (chapterId: string) => string;
+}
+
+const { sources, chapterAnchor } = Astro.props;
+---
+
+<section class="source-list" id="sources" aria-labelledby="sources-title">
+  <h2 id="sources-title">Sources</h2>
+  {
+    sources.length === 0 ? (
+      <p class="empty">This story does not cite outside sources.</p>
+    ) : (
+      <ol>
+        {sources.map((entry) => (
+          <li id={entry.anchor}>
+            <p class="work">{entry.url ? <a href={entry.url}>{entry.source}</a> : entry.source}</p>
+            <ul class="cited-in">
+              {entry.citedIn.map((ref) => (
+                <li>
+                  {ref.text} — <a href={`#${chapterAnchor(ref.chapterId)}`}>{ref.chapterTitle}</a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</section>
+
+<style>
+  .source-list {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font: 0.9375rem/1.5 system-ui, sans-serif;
+    scroll-margin-top: 1.5rem;
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  ol > li + li {
+    margin-top: 0.75rem;
+  }
+
+  .work {
+    margin: 0;
+    font-weight: 600;
+    /* Long titles and bare URLs break instead of pushing the page sideways on a phone. */
+    overflow-wrap: anywhere;
+  }
+
+  .cited-in {
+    margin: 0.25rem 0 0;
+    padding-left: 1rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .empty {
+    color: var(--muted);
+  }
+</style>

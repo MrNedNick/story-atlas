@@ -10,17 +10,21 @@ import { storyToc, tocEntryFor } from '../../features/03-navigation';
 import { neighbours } from '../../domain/03-navigation';
 import Contents from '../../components/Contents.astro';
 import ChapterNav from '../../components/ChapterNav.astro';
+import SourceList from '../../components/SourceList.astro';
+import RelatedStories from '../../components/RelatedStories.astro';
+import { storyRelated, storySources } from '../../features/05-sources';
 
 export async function getStaticPaths() {
   const stories = await loadPublishedStories();
-  return stories.map((story) => ({ params: { slug: story.slug }, props: { story } }));
+  return stories.map((story) => ({ params: { slug: story.slug }, props: { story, related: storyRelated(story, stories) } }));
 }
 
 interface Props {
   story: Story;
+  related: ReturnType<typeof storyRelated>;
 }
 
-const { story } = Astro.props;
+const { story, related } = Astro.props;
 const chapters = await Promise.all(
   story.chapters.map(async (chapter) => {
     const entry = await getEntry('chapters', chapter.bodyRef);
@@ -34,6 +38,11 @@ const toc = storyToc(
   chapters.map(({ chapter, body, headings }) => ({ order: chapter.order, title: chapter.title, body, headings })),
 );
 const minutes = storyReadingMinutes(chapters.map(({ body }) => body));
+const sources = storySources(story);
+const chapterAnchor = (chapterId: string) => {
+  const chapter = story.chapters.find((item) => item.id === chapterId);
+  return chapter ? tocEntryFor(toc, chapter.order).id : 'contents';
+};
 const layout = siteLayoutCss();
 const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'long', timeZone: 'UTC' });
 ---
@@ -76,6 +85,9 @@ const date = (value: Date) => value.toLocaleDateString('en-GB', { dateStyle: 'lo
         );
       })
     }
+
+    <SourceList sources={sources} chapterAnchor={chapterAnchor} />
+    <RelatedStories related={related} />
   </article>
 </Base>
 

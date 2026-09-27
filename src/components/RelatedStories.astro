@@ -1,0 +1,87 @@
+---
+import type { RelatedStory } from '../domain/05-sources';
+
+interface Props {
+  related: RelatedStory[];
+}
+
+const { related } = Astro.props;
+const topic = (value: string) => value.replace(/-/g, ' ');
+---
+
+<aside class="related" aria-labelledby="related-title">
+  <h2 id="related-title">Related stories</h2>
+  {
+    related.length === 0 ? (
+      <p class="empty">No other stories on these topics yet.</p>
+    ) : (
+      <ul>
+        {related.map((story) => (
+          <li>
+            <a href={`/stories/${story.slug}/`}>
+              <span class="title">{story.title}</span>
+              <span class="dek">{story.dek}</span>
+            </a>
+            <p class="topics">Also about {story.sharedTopics.map(topic).join(', ')}</p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</aside>
+
+<style>
+  .related {
+    margin: 4rem 0 2rem;
+    font: 0.9375rem/1.5 system-ui, sans-serif;
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+    /* One column on a phone, side by side when there is room. */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+
+  li {
+    padding: 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 0.5rem;
+  }
+
+  a {
+    display: grid;
+    gap: 0.25rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 1.0625rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover .title {
+    text-decoration-thickness: 2px;
+  }
+
+  .dek,
+  .topics,
+  .empty {
+    color: var(--muted);
+  }
+
+  .topics {
+    margin: 0.5rem 0 0;
+    font-size: 0.8125rem;
+  }
+</style>
