@@ -5,6 +5,8 @@ citations, built with Astro, MDX and hand-authored SVG graphics. No
 client-side framework — pages ship as static HTML, with interactivity added
 only where a scenario genuinely needs it.
 
+**Live:** https://mrnednick.github.io/story-atlas/
+
 What it does:
 
 - Stories are content collections: one folder per story with a `story.json`
